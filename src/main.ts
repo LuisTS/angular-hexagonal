@@ -1,6 +1,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
-import { AppComponent } from './app/app.component';
+import { provideHttpClient } from '@angular/common/http';
+import { UserComponent } from './app/presentation/user.component';
+import { UserApiRepository } from './app/infrastructure/repositories/user-api.repository';
+import { USER_REPOSITORY } from './app/core/domain/repositories/user.repository';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(UserComponent, {
+  providers: [
+    provideHttpClient(),
+    { provide: USER_REPOSITORY, useClass: UserApiRepository },
+  ],
+}).catch((err) => console.error(err));
